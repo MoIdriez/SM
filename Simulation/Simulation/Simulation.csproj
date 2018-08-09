@@ -45,14 +45,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Examples\ExpCircleIntersection.cs" />
+    <Compile Include="Examples\ExpLineAndCircleIntersection.cs" />
+    <Compile Include="Examples\ExpLineIntersection.cs" />
+    <Compile Include="Examples\ExpSimpleCircles.cs" />
+    <Compile Include="Examples\ExpSimpleSlam.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Draw.cs" />
+    <Compile Include="Helpers\Eq.cs" />
+    <Compile Include="Objects\Camera.cs" />
+    <Compile Include="Objects\Circle.cs" />
+    <Compile Include="Objects\Fov.cs" />
+    <Compile Include="Objects\LineSegment.cs" />
+    <Compile Include="Objects\Planner.cs" />
+    <Compile Include="Objects\Point.cs" />
+    <Compile Include="Objects\Polygon.cs" />
+    <Compile Include="Objects\Ray.cs" />
+    <Compile Include="Objects\Scene.cs" />
+    <Compile Include="Objects\SceneObject.cs" />
+    <Compile Include="Objects\Step.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleSlam\PaperRobot.cs" />
+    <Compile Include="SimpleSlam\Robot.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
