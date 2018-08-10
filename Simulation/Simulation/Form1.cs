@@ -30,7 +30,7 @@ namespace Simulation
 
         private void TimerEventProcessor(object sender, EventArgs e)
         {
-            if (counter > 150)
+            if (counter > 250)
             {
                 timer.Stop();
             } else
@@ -79,6 +79,57 @@ namespace Simulation
             // enter room 2
             var inRoom2 = new Engine.Point(825, 700);
             planner.AddCourse(inRoom2, 15);
+
+            // rotate out of room
+            planner.AddRotation(180, 10);
+
+            // back to area between rooms
+            planner.AddCourse(betweenRooms, 10);
+
+            // rotate in hallway
+            planner.AddRotation(90, 10);
+
+            // move towards first toilet
+            var firstToilet = new Engine.Point(975, 475);
+            planner.AddCourse(firstToilet, 5);
+
+            // scan both places
+            planner.AddRotation(360, 15);
+
+            // move towards second toilet
+            var secondToilet = new Engine.Point(1125, 475);
+            planner.AddCourse(secondToilet, 5);
+
+            // scan both places
+            planner.AddRotation(-270, 15);
+
+            // enter second toilet
+            var secondToiletInside = new Engine.Point(1125, 775);
+            planner.AddCourse(secondToiletInside, 5);
+
+            // rotate out of toilet
+            planner.AddRotation(180, 15);
+
+            // move to entrance of second toilet
+            planner.AddCourse(secondToilet, 5);
+
+            // rotate towards dinning area
+            planner.AddRotation(90, 15);
+
+            // enter dining area
+            var diningArea = new Engine.Point(1275, 475);
+            planner.AddCourse(diningArea, 5);
+
+            // scan dining area
+            planner.AddRotation(-90, 15);
+            planner.AddRotation(180, 15);
+
+            // enter living room
+            var livingRoom = new Engine.Point(1275, 700);
+            planner.AddCourse(livingRoom, 5);
+
+            // scan living room
+            planner.AddRotation(-90, 15);
 
             return planner;
         }
