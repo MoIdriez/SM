@@ -1,37 +1,50 @@
 ﻿using Engine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simulation.Objects
 {
     public class Step
     {
-        public Point Point { get; set; }
-        public Ray FOVStart { get; private set; }
-        public Ray FOVEnd { get; private set; }
+        public Point Point { get; private set; }
+        public double StartAngle { get; private set; }
+        public double EndAngle { get; private set; }
+        public double Noise { get; private set; }
+
+        public Ray FOVStart {
+            get {
+                return new Ray(Point + Noise, StartAngle);
+            }
+        }
+        
+        public Ray FOVEnd
+        {
+            get
+            {
+                return new Ray(Point + Noise, EndAngle);
+            }
+        }
 
         public Step(Step step)
         {
             Point = step.Point;
-            FOVStart = step.FOVStart;
-            FOVEnd = step.FOVEnd;
+            StartAngle = step.StartAngle;
+            EndAngle = step.EndAngle;
+            Noise = step.Noise;
         }
 
-        public Step(Point p, double startAngle, double endAngle)
+        public Step(Point p, double startAngle, double endAngle, double noise)
         {
             Point = p;
-            FOVStart = new Ray(Point, startAngle);
-            FOVEnd = new Ray(Point, endAngle);
+            StartAngle = startAngle;
+            EndAngle = endAngle;
+            Noise = noise;
         }
 
-        public Step(double x, double y, double startAngle, double endAngle)
+        public Step(double x, double y, double startAngle, double endAngle, double noise)
         {
             Point = new Point(x, y);
-            FOVStart = new Ray(Point, startAngle);
-            FOVEnd = new Ray(Point, endAngle);
+            StartAngle = startAngle;
+            EndAngle = endAngle;
+            Noise = noise;
         }
 
         public void Rotate(double r)

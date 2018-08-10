@@ -7,12 +7,14 @@ namespace Engine
         public Point Center { get; private set; }
         public double Radius { get; private set; }
         public Pen Pen { get; set; }
+        public bool IsDrawn { get; set; }
 
         public Circle(Point center, double radius, Pen pen = null)
         {
             Center = center;
             Radius = radius;
             Pen = pen ?? GetDefaultPen();
+            IsDrawn = true;
         }
 
         public Circle(double centerX, double centerY, double radius)
@@ -23,6 +25,7 @@ namespace Engine
 
         public void Draw(Graphics g, Pen p = null)
         {
+            if (!IsDrawn) return;
             p = p ?? Pen;
             Simulation.Draw.DrawCircle(g, p, this);
         }

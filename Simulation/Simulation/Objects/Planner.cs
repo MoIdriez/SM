@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Simulation.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,25 +10,31 @@ namespace Simulation.Objects
 {
     public class Planner
     {
+        public bool AddNoise { get; set; }
         public List<Step> Steps { get; private set; }
 
-        public Planner(Point start, double startAngle, double endAngle)
+        private Random random = new Random();
+        private double mean = 2;
+        private double stddev = 5;
+
+        public Planner(Point start, double startAngle, double endAngle, bool addNoise = true)
         {
-            var startStep = new Step(start, startAngle, endAngle);
+            AddNoise = addNoise;
+            var startStep = new Step(start, startAngle, endAngle, GenerateNoise());
             Steps = new List<Step> { startStep };
         }
 
         // adding step without changing rotation
         public void AddStep(Point p)
         {
-            var step = new Step(p, Steps.Last().FOVStart.Angle, Steps.Last().FOVEnd.Angle);
+            var step = new Step(p, Steps.Last().FOVStart.Angle, Steps.Last().FOVEnd.Angle, GenerateNoise(Steps.Last().Noise));
             Steps.Add(step);
         }
 
         // adding step without changing rotation
         public void AddStep(double x, double y)
         {
-            var step = new Step(new Point(x, y), Steps.Last().FOVStart.Angle, Steps.Last().FOVEnd.Angle);
+            var step = new Step(new Point(x, y), Steps.Last().FOVStart.Angle, Steps.Last().FOVEnd.Angle, GenerateNoise(Steps.Last().Noise));
             Steps.Add(step);
         }
 
@@ -41,7 +48,7 @@ namespace Simulation.Objects
                 var startAngle = start.FOVStart.Angle + rStep * i;
                 var endAngle = start.FOVEnd.Angle + rStep * i ;
 
-                var step = new Step(new Point(start.Point.X, start.Point.Y), startAngle, endAngle);
+                var step = new Step(new Point(start.Point.X, start.Point.Y), startAngle, endAngle, start.Noise);
                 Steps.Add(step);
             }
         }
@@ -59,9 +66,15 @@ namespace Simulation.Objects
                     start.Point.X + xStep * i,
                     start.Point.Y + yStep * i
                     );
-                var step = new Step(p, start.FOVStart.Angle, start.FOVEnd.Angle);
+                var step = new Step(p, start.FOVStart.Angle, start.FOVEnd.Angle, GenerateNoise(Steps.Last().Noise));
                 Steps.Add(step);
             }
+        }
+
+        private double GenerateNoise(double addedNoise = 0)
+        {
+            return Eq.SampleGaussian(random, mean, stddev) + addedNoise;
+
         }
 
     }

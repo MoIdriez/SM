@@ -1,4 +1,6 @@
-﻿using Simulation.Examples;
+﻿using Engine;
+using Simulation.Examples;
+using Simulation.Helpers;
 using Simulation.Objects;
 using System;
 using System.Collections.Generic;
@@ -17,7 +19,9 @@ namespace Simulation
         static int counter = 0;
         static int interval = 240;
         static Timer timer = new Timer();
+        static Random random = new Random();
         static Planner planner = GetPlanner();
+        static List<Engine.Point> map = new List<Engine.Point>();
 
         public Form1()
         {
@@ -45,9 +49,12 @@ namespace Simulation
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            TestNoise();
             label1.Text = counter.ToString();
             var cameraLocation = planner.Steps[counter];
-            ExpSimpleSlam.Run(e.Graphics, cameraLocation);
+
+            Scene scene = ExpSimpleSlam.Run(e.Graphics, cameraLocation);
+            DrawMiniMap(e.Graphics, scene);
         }
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
@@ -56,6 +63,31 @@ namespace Simulation
             counter = 0;
             interval += interval;
             timer.Start();
+        }
+
+        private void DrawMiniMap(Graphics g, Scene scene)
+        {
+            map.AddRange(scene.GetExpectedIntersectingPoints());
+            map.ForEach(p => new Circle(p / 5, 2).Draw(g));
+        }
+
+        private static void TestNoise()
+        {
+            var noise = new List<double>();
+            for (int i = 0; i < 150; i++)
+                noise.Add(Eq.SampleGaussian(random, 0, 150));
+
+            var noise1 = new List<double>();
+            for (int i = 0; i < 150; i++)
+                noise1.Add(Eq.SampleGaussian(random, -20, 150));
+
+            var noise2 = new List<double>();
+            for (int i = 0; i < 150; i++)
+                noise2.Add(Eq.SampleGaussian(random, 0, -30));
+
+            var noise3 = new List<double>();
+            for (int i = 0; i < 150; i++)
+                noise3.Add(Eq.SampleGaussian(random, 20, 30));
         }
 
         private static Planner GetPlanner()

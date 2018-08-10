@@ -56,6 +56,12 @@ namespace Engine
             }).ToList();
         }
 
+        public List<Point> GetExpectedIntersectingPoints()
+        {
+            var points = Camera.GetFOVRays().Select(vp => vp.GetNearestIntersect(SceneObjects).Item2);
+            return points.Where(p => p != null).Select(p => p - Camera.Step.Noise).ToList();
+        }
+
         private void DrawStateValues(List<Fov> fovs)
         {
             int counter = 0;

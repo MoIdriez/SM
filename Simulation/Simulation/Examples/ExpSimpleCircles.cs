@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Engine;
 using Simulation.Helpers;
+using Simulation.Objects;
 
 namespace Simulation
 {
@@ -11,7 +12,7 @@ namespace Simulation
         public static void Run(Graphics g)
         {
             Engine.Point cameraLocation = new Engine.Point(800, 300);
-            Camera camera = new Camera(cameraLocation, new Ray(cameraLocation, 45), new Ray(cameraLocation, 135));
+            Camera camera = new Camera(new Step(cameraLocation, 315, 45, 0));
 
             List<SceneObject> cs = new List<SceneObject> {
                     new Circle(new Engine.Point(800, 500), 20),

@@ -7,18 +7,21 @@ namespace Engine
         public Point Start { get; private set; }
         public Point End { get; private set; }
         public Pen Pen { get; set; }
+        public bool IsDrawn { get; set; }
 
         public LineSegment(Point start, Point end, Pen pen = null)
         {
             Start = start;
             End = end;
             Pen = pen ?? GetDefaultPen();
+            IsDrawn = true;
         } 
 
         public LineSegment(double startX, double startY, double endX, double endY)
         {
             Start = new Point(startX, startY);
             End = new Point(endX, endY);
+            IsDrawn = true;
         }
 
         public double GetSlope()
@@ -28,6 +31,7 @@ namespace Engine
 
         public void Draw(Graphics g, Pen pen = null)
         {
+            if (!IsDrawn) return;
             pen = pen ?? Pen;
 
             g.DrawLine(pen,

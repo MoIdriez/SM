@@ -1,5 +1,6 @@
 ﻿using Engine;
 using Simulation.Helpers;
+using Simulation.Objects;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,7 +12,7 @@ namespace Simulation.Examples
     {
         public static void Run(Graphics g, int i) {
             Engine.Point cameraLocation = new Engine.Point(400 + i * 50, 400);
-            Camera camera = new Camera(cameraLocation, new Ray(cameraLocation, 315), new Ray(cameraLocation, 45));
+            Camera camera = new Camera(new Step(cameraLocation, 315, 45, 0));
 
             var arena = new Polygon(new List<LineSegment>
             {

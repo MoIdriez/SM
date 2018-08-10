@@ -17,18 +17,21 @@ namespace Engine
         public double Y { get { return Start.Y; } }
 
         public Pen Pen { get; set; }
+        public bool IsDrawn { get; set; }
 
         public Ray(Point start, double angle, Pen pen = null)
         {
             Start = start;
             Angle = angle < 0 ? angle + 365 : angle;
             Pen = pen ?? GetDefaultPen();
+            IsDrawn = true;
         }
 
         public Ray(Point start, Point onRay)
         {
             Start = start;
             Angle = start.GetAngleBetween(onRay);
+            IsDrawn = true;
         }
 
         public void Rotate(double r)
@@ -49,6 +52,7 @@ namespace Engine
 
         public void DrawWithEndPoint(Graphics g, Point end, Pen pen = null)
         {
+            if (!IsDrawn) return;
             pen = pen ?? Pen;
 
             Start.Draw(g, pen);
@@ -59,6 +63,7 @@ namespace Engine
 
         public void Draw(Graphics g, Pen pen = null)
         {
+            if (!IsDrawn) return;
             pen = pen ?? Pen;
             Point end = GetEndPoint(5000);
 

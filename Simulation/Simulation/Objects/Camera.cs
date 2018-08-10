@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Simulation.Objects;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -6,19 +7,19 @@ namespace Engine
 {
     public class Camera
     {
-        public Point Location { get; private set; }
-        public Ray FOVStart { get; private set; }
-        public Ray FOVEnd { get; private set; }
+        public Step Step { get; private set; }
+        public Point Location { get { return Step.Point + Step.Noise; } }
+        private Ray FOVStart { get { return Step.FOVStart; } }
+        private Ray FOVEnd { get { return Step.FOVEnd; } }
 
-        public Camera(Point location, Ray fOVStart, Ray fOVEnd)
+        public Camera(Step step)
         {
-            Location = location;
-            FOVStart = fOVStart;
-            FOVEnd = fOVEnd;
+            Step = step;
         }
 
         public void Draw(Graphics g, Pen cameraPen = null, Pen rayPen = null)
         {
+            Step.Point.Draw(g, Pens.Black);
             Location.Draw(g, cameraPen);
             FOVStart.Draw(g, rayPen);
             FOVEnd.Draw(g, rayPen);

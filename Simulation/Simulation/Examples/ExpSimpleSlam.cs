@@ -11,9 +11,9 @@ namespace Simulation.Examples
 {
     public static class ExpSimpleSlam
     {
-        public static void Run(Graphics g, Step step)
+        public static Scene Run(Graphics g, Step step)
         {
-            Camera camera = new Camera(step.Point, step.FOVStart, step.FOVEnd);
+            Camera camera = new Camera(step);
 
             var arena = new Polygon(new List<LineSegment>
             {
@@ -38,10 +38,13 @@ namespace Simulation.Examples
                 new LineSegment(new Engine.Point(1350, 550), new Engine.Point(1650, 550))
             });
 
+            arena.Lines.ForEach(l => l.IsDrawn = false);
+
             var sceneObjects = new List<SceneObject> { arena };
             Scene scene = new Scene(camera, g, sceneObjects);
 
             scene.Draw();
+            return scene;
         }
     }
 }
