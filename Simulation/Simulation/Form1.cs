@@ -63,6 +63,7 @@ namespace Simulation
             counter = 0;
             interval += interval;
             timer.Start();
+            map = new List<Engine.Point>();
         }
 
         private void DrawMiniMap(Graphics g, Scene scene)
